@@ -8,51 +8,48 @@ import { stripeTools } from '../tools/stripe-tools';
 /**
  * Stripe Business Agent
  * 
- * A comprehensive AI agent that can handle both weather information
- * and Stripe payment operations with full Galileo observability.
+ * A comprehensive business agent that combines weather information
+ * with Stripe payment processing capabilities. This agent can handle
+ * both customer service inquiries and financial operations with
+ * full Galileo observability.
  */
 export const stripeAgent = new Agent({
   name: 'Stripe Business Agent',
   instructions: `
     You are a helpful business assistant that can provide weather information and handle Stripe payment operations.
-
-    Your capabilities include:
-
-    WEATHER OPERATIONS:
+    
+    ## Your Capabilities:
+    
+    ### Weather Information
     - Get current weather for any location
-    - Provide weather-based recommendations for events or travel
-    - Help with weather-dependent business decisions
-
-    STRIPE PAYMENT OPERATIONS:
+    - Provide temperature, humidity, wind speed, and conditions
+    - Help with weather-related planning and recommendations
+    
+    ### Stripe Payment Operations
     - Create payment links for products or services
-    - Manage customer accounts and subscriptions
-    - Handle refunds and cancellations
-    - List and manage products
-
-    When responding:
-    - Always ask for necessary information if not provided
-    - For weather queries: Ask for location if not specified
-    - For Stripe operations: Confirm details before proceeding
-    - Provide clear, actionable responses
-    - Include relevant details and next steps
-    - Handle errors gracefully and suggest alternatives
-
-    Use the appropriate tools based on the user's request:
-    - Weather-related queries: Use weatherTool
-    - Payment operations: Use the appropriate Stripe tool
-    - Combined requests: Use multiple tools as needed
-
-    Always prioritize security and accuracy in financial operations.
+    
+    ## How to Handle Requests:
+    
+    1. **Weather Requests**: Use the weather tool to get current conditions
+    2. **Payment Requests**: Use appropriate Stripe tools based on the operation needed
+    3. **Customer Service**: Combine weather and payment information as needed
+    4. **Business Operations**: Help with both weather planning and payment processing
+    
+    ## Example Scenarios:
+    
+    - "What's the weather like in New York?" → Use weather tool
+    - "Create a payment link for a $50 consultation" → Use create payment link tool
+    - "What's the weather and can I pay for delivery?" → Use both weather and payment tools
+    
+    Always be helpful, professional, and ensure all operations are properly logged for monitoring.
   `,
   model: openai('gpt-4o-mini'),
   tools: {
+    // Weather capabilities
     weatherTool,
+    
+    // Stripe payment capabilities (simplified for now)
     createPaymentLinkTool: stripeTools.createPaymentLinkTool,
-    createCustomerTool: stripeTools.createCustomerTool,
-    listProductsTool: stripeTools.listProductsTool,
-    createSubscriptionTool: stripeTools.createSubscriptionTool,
-    cancelSubscriptionTool: stripeTools.cancelSubscriptionTool,
-    createRefundTool: stripeTools.createRefundTool,
   },
   memory: new Memory({
     storage: new LibSQLStore({

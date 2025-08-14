@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:galileo": "node test-galileo.js",
     "test:setup": "node test-galileo-setup.js",
-    "test:stripe": "node test-stripe-integration.js",
+    "test:stripe": "node test-stripe-integration.cjs",
     "dev": "mastra dev",
     "build": "mastra build",
     "start": "mastra start"
@@ -26,7 +26,9 @@
     "@mastra/loggers": "^0.10.6",
     "@mastra/memory": "^0.12.2",
     "galileo": "^1.25.0",
-    "zod": "^3.25.76"
+    "zod": "^3.25.76",
+    "@stripe/agent-toolkit": "^0.1.0",
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.2.1",
