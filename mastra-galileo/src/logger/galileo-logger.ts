@@ -145,14 +145,15 @@ process.on('unhandledRejection', async (reason, promise) => {
 });
 
 /**
- * Galileo Logging Wrapper
+ * Galileo Logging Wrapper with Immediate Flush
  * 
  * This function provides a convenient way to log workflow and tool operations
- * using the modern Galileo 2.0 API.
+ * using the modern Galileo 2.0 API. It automatically flushes logs immediately
+ * after each operation to ensure data is sent to Galileo right away.
  * 
  * @param options - Logging options including name and span type
  * @param fn - The function to execute and log
- * @returns A wrapped function that logs the execution
+ * @returns A wrapped function that logs the execution and flushes immediately
  */
 export function logOperation<T>(
   options: { name: string; spanType: 'workflow' | 'tool' },
@@ -162,7 +163,54 @@ export function logOperation<T>(
     return fn;
   }
 
-  return log(options, fn);
+  const wrappedFn = log(options, fn);
+  
+  return async (...args: any[]) => {
+    try {
+      const result = await wrappedFn(...args);
+      // Flush immediately after successful execution
+      await flush();
+      return result;
+    } catch (error) {
+      // Flush even on error to ensure error data is sent
+      await flush();
+      throw error;
+    }
+  };
+}
+
+/**
+ * Enhanced Galileo Log Function with Immediate Flush
+ * 
+ * This is an enhanced version of the Galileo log function that automatically
+ * flushes data to Galileo immediately after each operation.
+ * 
+ * @param options - Logging options including name and span type
+ * @param fn - The function to execute and log
+ * @returns A wrapped function that logs the execution and flushes immediately
+ */
+export function logWithFlush<T>(
+  options: { name: string; spanType: 'workflow' | 'tool' },
+  fn: (...args: any[]) => Promise<T>
+): (...args: any[]) => Promise<T> {
+  if (!config.enabled) {
+    return fn;
+  }
+
+  const wrappedFn = log(options, fn);
+  
+  return async (...args: any[]) => {
+    try {
+      const result = await wrappedFn(...args);
+      // Flush immediately after successful execution
+      await flush();
+      return result;
+    } catch (error) {
+      // Flush even on error to ensure error data is sent
+      await flush();
+      throw error;
+    }
+  };
 }
 
 /**
@@ -172,6 +220,25 @@ export function logOperation<T>(
  * configuration for debugging or validation purposes.
  */
 export { config as galileoConfig };
+
+/**
+ * Manual Flush Function
+ * 
+ * This function can be called manually to flush all pending Galileo data
+ * immediately. Useful for ensuring data is sent before application shutdown
+ * or after critical operations.
+ */
+export async function flushGalileo(): Promise<void> {
+  if (config.enabled) {
+    try {
+      console.log('Manually flushing Galileo data...');
+      await flush();
+      console.log('Galileo data flushed successfully');
+    } catch (error) {
+      console.error('Error flushing Galileo data:', error);
+    }
+  }
+}
 
 /**
  * Export Modern Galileo Functions

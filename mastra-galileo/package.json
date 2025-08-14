@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:galileo": "node test-galileo.cjs",
+    "test:galileo-flush": "node test-galileo-flush.cjs",
     "test:setup": "node test-galileo-setup.js",
     "dev": "mastra dev",
     "build": "mastra build",

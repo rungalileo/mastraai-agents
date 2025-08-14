@@ -30,7 +30,7 @@ export const mastra = new Mastra({
 initializeGalileo().catch(console.error);
 
 // Export Galileo functions for manual use
-export { initializeGalileo, log, init, flush } from '../logger/galileo-logger';
+export { initializeGalileo, log, init, flush, flushGalileo, logWithFlush } from '../logger/galileo-logger';
 
 // Export simple tracing context utilities for backward compatibility
 export { getTracingContext, setTracingContext, createChildTracingContext } from '../context/tracing-context';

@@ -1,6 +1,6 @@
 import { createStep, createWorkflow } from '@mastra/core/workflows';
 import { z } from 'zod';
-import { log } from '../../logger/galileo-logger';
+import { logWithFlush } from '../../logger/galileo-logger';
 
 /**
  * Weather Forecast Schema

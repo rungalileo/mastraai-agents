@@ -1,6 +1,6 @@
 import { createTool } from '@mastra/core/tools';
 import { z } from 'zod';
-import { log } from '../../logger/galileo-logger';
+import { logWithFlush } from '../../logger/galileo-logger';
 
 /**
  * Weather Tool Response Interfaces
@@ -73,7 +73,7 @@ export const weatherTool = createTool({
  * @returns Weather data including temperature, humidity, wind, and conditions
  * @throws Error if the location is not found or weather data cannot be fetched
  */
-const getWeather = log({ 
+const getWeather = logWithFlush({ 
   name: 'get-weather-api-call', 
   spanType: 'tool' 
 }, async (location: string) => {
