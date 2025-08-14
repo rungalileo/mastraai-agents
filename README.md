@@ -213,7 +213,7 @@ open http://localhost:4111
 ### **Additional Resources**
 
 - [Galileo Examples](https://github.com/rungalileo/sdk-examples) 
-- [Mastra Examples Repository](https://github.com/mastra-ai/examples) 
+- [Mastra Examples Repository](https://github.com/mastra-ai/mastra/tree/main/examples) 
 
 ## 🎉 Ready to Start?
 
