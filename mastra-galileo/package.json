@@ -22,6 +22,7 @@
     "@mastra/libsql": "^0.13.2",
     "@mastra/loggers": "^0.10.6",
     "@mastra/memory": "^0.12.2",
+    "galileo": "^1.25.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
