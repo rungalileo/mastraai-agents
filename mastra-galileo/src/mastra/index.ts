@@ -4,6 +4,7 @@ import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
 import { weatherWorkflow } from './workflows/weather-workflow';
 import { weatherAgent } from './agents/weather-agent';
+import { initializeGalileo } from '../logger/galileo-logger';
 
 /**
  * Mastra Application Configuration
@@ -24,6 +25,9 @@ export const mastra = new Mastra({
     level: 'info',
   }),
 });
+
+// Auto-initialize Galileo when this module is imported
+initializeGalileo().catch(console.error);
 
 // Export Galileo functions for manual use
 export { initializeGalileo, log, init, flush } from '../logger/galileo-logger';

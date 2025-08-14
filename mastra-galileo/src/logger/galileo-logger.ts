@@ -61,8 +61,8 @@ function getEnvBoolean(key: string, defaultValue: boolean = true): boolean {
  * the Galileo 2.0 API structure.
  */
 const config: GalileoConfig = {
-  projectName: getEnvString('GALILEO_PROJECT_NAME', 'mastra-agents'),
-  logStreamName: getEnvString('GALILEO_LOG_STREAM_NAME', 'default-stream'),
+  projectName: getEnvString('GALILEO_PROJECT', 'mastra-galileo'),
+  logStreamName: getEnvString('GALILEO_LOG_STREAM', 'development'),
   apiKey: getEnvString('GALILEO_API_KEY'), // Required, no fallback
   baseUrl: getEnvString('GALILEO_BASE_URL', 'https://api.galileo.ai'),
   enabled: getEnvBoolean('GALILEO_ENABLED', true),
