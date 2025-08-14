@@ -5,11 +5,18 @@ import { LibSQLStore } from '@mastra/libsql';
 import { weatherWorkflow } from './workflows/weather-workflow';
 import { weatherAgent } from './agents/weather-agent';
 
+/**
+ * Mastra Application Configuration
+ * 
+ * This creates the main Mastra application instance with all workflows,
+ * agents, storage, and logging configured. Galileo observability can be
+ * initialized separately using the exported functions.
+ */
 export const mastra = new Mastra({
   workflows: { weatherWorkflow },
   agents: { weatherAgent },
   storage: new LibSQLStore({
-    // stores telemetry, evals, ... into memory storage, if it needs to persist, change to file:../mastra.db
+    // Stores telemetry, evals, ... into memory storage, if it needs to persist, change to file:../mastra.db
     url: ":memory:",
   }),
   logger: new PinoLogger({
@@ -17,3 +24,9 @@ export const mastra = new Mastra({
     level: 'info',
   }),
 });
+
+// Export Galileo functions for manual use
+export { initializeGalileo, log, init, flush } from '../logger/galileo-logger';
+
+// Export simple tracing context utilities for backward compatibility
+export { getTracingContext, setTracingContext, createChildTracingContext } from '../context/tracing-context';
